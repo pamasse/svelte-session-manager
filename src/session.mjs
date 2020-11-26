@@ -65,6 +65,18 @@ export class Session {
     }
   }
 
+  /**
+   * Renew access_token with the refresh_token
+   * 
+   */
+  async refresh() {
+    if(this.refresh_token) {
+      
+    }
+
+    return false;
+  }
+
   update(data) {
     this.clear();
 
@@ -89,8 +101,10 @@ export class Session {
           }
 
           this.expirationTimer = setTimeout(() => {
-            this.clear();
-            this.fire();
+            if(!await this.refresh()) {
+              this.clear();
+              this.fire();  
+            }
           }, expiresInMilliSeconds);
         }
       }
